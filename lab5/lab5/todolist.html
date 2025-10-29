@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todo List</title>
+    <style>
+        
+        body {font-family: Arial, sans-serif; padding: 20px;}
+        .task-input-area {margin-bottom: 20px;}
+        #newTaskInput {padding: 8px; width: 300px;}
+        #addTaskButton {padding: 8px 16px; cursor: pointer;}
+     
+        #taskCollection {list-style-type: disc; padding-left: 20px;}
+        #taskCollection li {font-size: 16px; margin: 8px 0; cursor: pointer;}
+    </style>
+</head>
+<body>
+    <div class="task-input-area">
+        <input type="text" id="newTaskInput" placeholder="Type a new task...">
+        <button id="addTaskButton">Add Task</button>
+    </div>
+    <ul id="taskCollection"></ul>
+
+    <script>
+        const taskInputField = document.getElementById('newTaskInput');
+        const addButton = document.getElementById('addTaskButton');
+        const taskListElement = document.getElementById('taskCollection');
+
+        // Load saved tasks from Local Storage on page load
+        function loadSavedTasks() {
+            const storedTasks = JSON.parse(localStorage.getItem('userTasks')) || [];
+            displayTaskList(storedTasks);
+        }
+
+        // Show tasks in the list (no delete buttons; delete by clicking task)
+        function displayTaskList(taskArray) {
+            taskListElement.innerHTML = '';
+            taskArray.forEach((taskText, taskIndex) => {
+                const taskItem = document.createElement('li');
+                taskItem.textContent = taskText;
+                // Delete task when its text is clicked
+                taskItem.addEventListener('click', () => removeTask(taskIndex));
+                taskListElement.appendChild(taskItem);
+            });
+        }
+
+        // Add a new task to the list and Local Storage
+        function addNewTask() {
+            const taskContent = taskInputField.value.trim();
+            if (taskContent === '') return;
+
+            const currentTasks = JSON.parse(localStorage.getItem('userTasks')) || [];
+            currentTasks.push(taskContent);
+            localStorage.setItem('userTasks', JSON.stringify(currentTasks));
+            
+            displayTaskList(currentTasks);
+            taskInputField.value = ''; // Clear input after adding
+        }
+
+        // Remove a task from the list and update Local Storage
+        function removeTask(index) {
+            const currentTasks = JSON.parse(localStorage.getItem('userTasks')) || [];
+            currentTasks.splice(index, 1);
+            localStorage.setItem('userTasks', JSON.stringify(currentTasks));
+            displayTaskList(currentTasks);
+        }
+
+        // Attach event listeners for user interactions
+        addButton.addEventListener('click', addNewTask);
+        taskInputField.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') addNewTask();
+        });
+
+        // Load tasks when the page finishes loading
+        window.addEventListener('load', loadSavedTasks);
+    </script>
+</body>
+</html>

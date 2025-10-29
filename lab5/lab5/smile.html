@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy smile</title>
+    <style>
+        canvas {
+            border: 2px solid #333;
+            display: block;
+            margin: 20px auto;
+            background-color: #4CAF50; 
+        }
+    </style>
+</head>
+<body>
+    <canvas id="smileyCanvas" width="500" height="500"></canvas>
+
+    <script>
+        
+        const canvas = document.getElementById('smileyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        //face
+        ctx.beginPath();
+        ctx.arc(250, 250, 200, 0, Math.PI * 2); 
+        ctx.fillStyle = '#FFEB3B'; 
+        ctx.fill();
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        //left eye
+        ctx.beginPath();
+        ctx.arc(160, 180, 20, 0, Math.PI * 2);
+        ctx.fillStyle = '#000';
+        ctx.fill();
+
+        //right eye
+        ctx.beginPath();
+        ctx.arc(340, 180, 20, 0, Math.PI * 2);
+        ctx.fill();
+
+        //nose
+        ctx.beginPath();
+        ctx.moveTo(250, 240); 
+        ctx.lineTo(250, 300); 
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 8;
+        ctx.stroke();
+
+		//mouth
+        ctx.beginPath();
+        ctx.arc(250, 320, 100, 0, Math.PI); 
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 8;
+        ctx.stroke();
+
+        ctx.font = '30px "Comic Sans MS", cursive';
+        ctx.fillStyle = '#2c3e50';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText('The Canvas brought me to life!', 250, 480);
+    </script>
+</body>
+</html>
